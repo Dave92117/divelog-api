@@ -1,62 +1,37 @@
-# Divelog API
+# Divelog
 
-A REST API for logging scuba dives, built with Node.js, Express, and PostgreSQL.
+A full-stack web app for logging scuba dives. Built with React on the frontend and a Node.js REST API on the backend.
 
-**Live API:** _add your Render URL here_  
-**Swagger docs:** _your-render-url_/docs
+**Live app:** https://divelog-client.onrender.com
+**API docs (Swagger):** https://divelog-api.onrender.com/docs
 
 ---
 
 ## Tech stack
 
-- **Runtime:** Node.js
-- **Framework:** Express
-- **Database:** PostgreSQL (Supabase)
-- **Auth:** JWT (jsonwebtoken + bcryptjs)
-- **Validation:** Zod
-- **Docs:** Swagger / OpenAPI 3.0
-- **Deployment:** Render
+**Frontend**
+- React + Vite
+- React Router
+- Vanilla CSS
+
+**Backend**
+- Node.js + Express
+- PostgreSQL (Supabase)
+- JWT authentication (jsonwebtoken + bcryptjs)
+- Input validation with Zod
+- Swagger / OpenAPI 3.0 documentation
+- Deployed on Render
 
 ---
 
-## Getting started locally
+## Features
 
-### 1. Clone and install
-
-```bash
-git clone https://github.com/yourusername/divelog-api.git
-cd divelog-api
-npm install
-```
-
-### 2. Set up Supabase (free)
-
-1. Go to [supabase.com](https://supabase.com) and create a free account
-2. Create a new project
-3. Go to **SQL Editor** and paste + run the contents of `migrations/001_initial.sql`
-4. Go to **Project Settings → Database** and copy the **Connection string (URI)**
-
-### 3. Configure environment
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env`:
-```
-DATABASE_URL=your_supabase_connection_string
-JWT_SECRET=any_long_random_string_here
-PORT=3000
-```
-
-### 4. Run
-
-```bash
-npm run dev
-```
-
-API runs at `http://localhost:3000`  
-Swagger UI at `http://localhost:3000/docs`
+- Register and log in with JWT authentication
+- Log dives with depth, duration, visibility, water temp and notes
+- Add a dive team with per-dive roles (diver, tender, standby diver, dive leader)
+- Dashboard with aggregated stats — total dives, deepest dive, total bottom time, favourite site
+- Logbook with filtering by location and role
+- Public dive sites endpoint (no auth required)
 
 ---
 
@@ -84,32 +59,54 @@ Swagger UI at `http://localhost:3000/docs`
 
 ---
 
-## Deploying to Render
+## Running locally
 
-1. Push this repo to GitHub
-2. Go to [render.com](https://render.com) → New → Web Service
-3. Connect your GitHub repo
-4. Set **Start command:** `npm start`
-5. Add environment variables:
-   - `DATABASE_URL` → your Supabase connection string
-   - `JWT_SECRET` → a random secret
-   - `NODE_ENV` → `production`
-6. Deploy
+### Backend
+
+```bash
+git clone https://github.com/Dave92117/divelog-api.git
+cd divelog-api
+npm install
+cp .env.example .env
+# Add your Supabase DATABASE_URL and a JWT_SECRET to .env
+npm run dev
+```
+
+API runs at `http://localhost:3000`
+Swagger UI at `http://localhost:3000/docs`
+
+### Frontend
+
+```bash
+cd client
+npm install
+# Create client/.env with: VITE_API_URL=http://localhost:3000
+npm run dev
+```
+
+Frontend runs at `http://localhost:5173`
+
+### Database setup
+
+1. Create a free account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Run `migrations/001_initial.sql` in the Supabase SQL Editor
+4. Copy the Session Pooler connection string into your `.env`
 
 ---
 
 ## Example requests
 
-### Register
+**Register**
 ```bash
-curl -X POST https://your-api.onrender.com/auth/register \
+curl -X POST https://divelog-api.onrender.com/auth/register \
   -H "Content-Type: application/json" \
   -d '{"name":"David","email":"david@example.com","password":"secret123"}'
 ```
 
-### Log a dive
+**Log a dive**
 ```bash
-curl -X POST https://your-api.onrender.com/dives \
+curl -X POST https://divelog-api.onrender.com/dives \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
