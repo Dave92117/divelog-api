@@ -58,12 +58,12 @@ export default function Login() {
           {mode === 'register' && (
             <div className="form-group">
               <label className="form-label">Name</label>
-              <input value={name} onChange={e => setName(e.target.value)} placeholder="David" required />
+              <input value={name} onChange={e => setName(e.target.value)} placeholder="John Doe" required />
             </div>
           )}
           <div className="form-group">
             <label className="form-label">Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="david@example.com" required />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email@example.com" required />
           </div>
           <div className="form-group">
             <label className="form-label">Password</label>
