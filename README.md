@@ -59,39 +59,6 @@ A full-stack web app for logging scuba dives. Built with React on the frontend a
 
 ---
 
-## Running locally
-
-### Backend
-
-```bash
-git clone https://github.com/Dave92117/divelog-api.git
-cd divelog-api
-npm install
-cp .env.example .env
-# Add your Supabase DATABASE_URL and a JWT_SECRET to .env
-npm run dev
-```
-
-API runs at `http://localhost:3000`
-Swagger UI at `http://localhost:3000/docs`
-
-### Frontend
-
-```bash
-cd client
-npm install
-# Create client/.env with: VITE_API_URL=http://localhost:3000
-npm run dev
-```
-
-Frontend runs at `http://localhost:5173`
-
-### Database setup
-
-1. Create a free account at [supabase.com](https://supabase.com)
-2. Create a new project
-3. Run `migrations/001_initial.sql` in the Supabase SQL Editor
-4. Copy the Session Pooler connection string into your `.env`
 
 ---
 
