@@ -58,7 +58,20 @@ A full-stack web app for logging dives. Built with React on the frontend and a N
 | GET | `/sites` | List dive sites (no auth) |
 
 ---
+## Running locally
 
+### Backend
+cd api
+npm install
+# create a .env file:
+#   DATABASE_URL=your_postgres_connection_string
+#   JWT_SECRET=your_secret
+npm run dev
+
+### Frontend
+cd client
+npm install
+npm run dev
 
 ---
 
