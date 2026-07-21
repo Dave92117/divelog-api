@@ -1,6 +1,6 @@
 # Divelog
 
-A full-stack web app for logging scuba dives. Built with React on the frontend and a Node.js REST API on the backend.
+A full-stack web app for logging dives. Built with React on the frontend and a Node.js REST API on the backend.
 
 **Live app:** https://divelog-client.onrender.com
 **API docs (Swagger):** https://divelog-api.onrender.com/docs
