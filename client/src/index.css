@@ -220,3 +220,35 @@ body {
   .form-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
 }
+/* Demo login button: animated blue gradient.
+   Colours are dark enough for white text to stay readable (WCAG AA). */
+.btn-demo {
+  width: 100%;
+  padding: 9px 14px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(110deg, #1e3a8a, #2563eb, #0e7490, #2563eb, #1e3a8a);
+  background-size: 300% 100%;
+  animation: demo-gradient 6s ease-in-out infinite;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-demo:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37, 99, 235, 0.5); }
+.btn-demo:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+.btn-demo:disabled { opacity: 0.7; cursor: wait; transform: none; }
+
+@keyframes demo-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Respect users who turn off animations in their OS settings */
+@media (prefers-reduced-motion: reduce) {
+  .btn-demo { animation: none; transition: none; }
+}
+
+.login-hint { color: var(--muted); font-size: 12px; text-align: center; }
