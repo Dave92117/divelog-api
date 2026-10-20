@@ -73,6 +73,19 @@ export default function Login() {
           <button type="submit" className="btn-primary" style={{ width: '100%' }} disabled={loading}>
             {loading ? 'Please wait...' : mode === 'login' ? 'Log in' : 'Create account'}
           </button>
+          {mode === 'login' && (
+            <button
+              type="button"
+              className="btn-ghost"
+              style={{ width: '100%' }}
+              onClick={() => {
+                setEmail('demo@example.com');
+                setPassword('DiveDemo2026');
+              }}
+            >
+              Use demo account
+            </button>
+          )}
         </form>
       </div>
     </div>
