@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { login, register } from '../api';
 import { useAuth } from '../AuthContext';
 
+const DEMO_EMAIL = 'demo@example.com';
+const DEMO_PASSWORD = 'DiveDemo2026';
+
 export default function Login() {
   const [mode, setMode] = useState('login');
   const [name, setName] = useState('');
@@ -10,37 +13,57 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [slow, setSlow] = useState(false);
   const { saveToken } = useAuth();
   const navigate = useNavigate();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  // Wraps a request in loading state. If it takes more than 3 seconds,
+  // show a hint: the free Render server may be waking up.
+  async function withLoading(task) {
     setError('');
     setLoading(true);
+    const slowTimer = setTimeout(() => setSlow(true), 3000);
     try {
+      await task();
+    } catch {
+      setError('Something went wrong');
+    } finally {
+      clearTimeout(slowTimer);
+      setSlow(false);
+      setLoading(false);
+    }
+  }
+
+  async function logInWith(loginEmail, loginPassword) {
+    const data = await login(loginEmail, loginPassword);
+    if (data.token) {
+      saveToken(data.token);
+      navigate('/');
+    } else {
+      setError(data.error || 'Login failed');
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    withLoading(async () => {
       if (mode === 'login') {
-        const data = await login(email, password);
-        if (data.token) {
-          saveToken(data.token);
-          navigate('/');
-        } else {
-          setError(data.error || 'Login failed');
-        }
+        await logInWith(email, password);
       } else {
         const data = await register(name, email, password);
         if (data.userId) {
-          const loginData = await login(email, password);
-          saveToken(loginData.token);
-          navigate('/');
+          await logInWith(email, password);
         } else {
           setError(data.error || 'Registration failed');
         }
       }
-    } catch {
-      setError('Something went wrong');
-    } finally {
-      setLoading(false);
-    }
+    });
+  }
+
+  function handleDemoLogin() {
+    setEmail(DEMO_EMAIL);
+    setPassword(DEMO_PASSWORD);
+    withLoading(() => logInWith(DEMO_EMAIL, DEMO_PASSWORD));
   }
 
   return (
@@ -74,18 +97,11 @@ export default function Login() {
             {loading ? 'Please wait...' : mode === 'login' ? 'Log in' : 'Create account'}
           </button>
           {mode === 'login' && (
-            <button
-              type="button"
-              className="btn-ghost"
-              style={{ width: '100%' }}
-              onClick={() => {
-                setEmail('demo@example.com');
-                setPassword('DiveDemo2026');
-              }}
-            >
-              Use demo account
+            <button type="button" className="btn-demo" onClick={handleDemoLogin} disabled={loading}>
+              Try the demo — no sign-up needed
             </button>
           )}
+          {slow && <p className="login-hint">The free server is waking up. This can take up to a minute.</p>}
         </form>
       </div>
     </div>
